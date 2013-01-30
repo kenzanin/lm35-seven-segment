@@ -39,7 +39,6 @@
 			<Add directory="digital_io" />
 			<Add directory="." />
 			<Add directory="tr7seg" />
-			<Add directory="decTo7seg" />
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=atmega8" />
@@ -47,22 +46,18 @@
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size --mcu=atmega8 --format=avr $(TARGET_OUTPUT_FILE)" />
-			<Add after='cmd /c &quot;avr-objdump -h -S $(TARGET_OUTPUT_FILE) &gt; $(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).lss&quot;' />
 			<Add after="avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).hex" />
 			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).eep" />
+			<Add after='cmd /c &quot;avr-objdump -h -S $(TARGET_OUTPUT_FILE) &gt; $(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).lss&quot;' />
 		</ExtraCommands>
+		<Unit filename="../digitalIo/digital_io/digital_io.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../digitalIo/digital_io/digital_io.h" />
 		<Unit filename="adc/adc.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="adc/adc.h" />
-		<Unit filename="decTo7seg/decTo7seg.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="decTo7seg/decTo7seg.h" />
-		<Unit filename="digital_io/digital_io.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="digital_io/digital_io.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

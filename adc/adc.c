@@ -1,8 +1,25 @@
-/*
-AVR ADC 10bit library
-Copy-left kenzanin[AT]gmail[dot]com
-License LGPLv3
-*/
+/**
+ * @file
+ * @author  kenzanin@gmail.com
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details at
+ * http://www.gnu.org/copyleft/lgpl.html
+ *
+ * @section DESCRIPTION
+ *
+ * Library ini digunakan untuk memudahkan akses dan initialiasasi ADC 10bit
+ */
 
 #include <avr/io.h>
 #include <avr/sleep.h>
@@ -76,17 +93,12 @@ uint16_t adc10_read(uint8_t _channel)
     uint16_t data_adc=0;
     for(var01=0; var01<JUMLAH_SAMPLING; ++var01)
     {
-        /**< choose which ADC channel to read */
-        ADMUX=_channel | ADC_VREF_MODE;
-        /**< entering ADC noice canceler */
-        sleep_enable();
-        /**< delay 15 uS supaya sampling adc tidak terpengaruh oleh aktifitas uC */
-        _delay_us(15);
-        ADCSRA|=(1<<ADSC);
-        /**< tunggu hingga ADC selesai */
-        loop_until_bit_is_clear(ADCSRA,ADSC);
-        data_adc+=ADCW;
-        /** exit form ADC noice canceler */
+        ADMUX=_channel | ADC_VREF_MODE; // choose which ADC channel to read
+        sleep_enable();                 // entering ADC noice canceler
+        _delay_us(15);                  // delay 15 uS supaya sampling adc tidak terpengaruh oleh aktifitas uC
+        ADCSRA|=(1<<ADSC);              // ADC mode singe read
+        loop_until_bit_is_clear(ADCSRA,ADSC);         // tunggu hingga ADC selesai
+        data_adc+=ADCW;                 // exit form ADC noice canceler
         sleep_disable();
     }
     data_adc>>=pembagi_sampling();
@@ -104,17 +116,13 @@ void adc10_init(void)
     DDRC=0x00;
 #endif // __AVR_ATmega8__
     set_sleep_mode(SLEEP_MODE_ADC);
-    ADMUX=ADC_VREF_MODE;
-    /**< scale adc clock to 200Khz to meet max frekuency for 10bit adc */
-    ADCSRA |= div_factor();
-    /**<  enable ADC */
-    ADCSRA|=(1<<ADEN);
-    /**< setup single read */
+    ADMUX=ADC_VREF_MODE;    // ADC menggunakan VREF sesuai yang di tunjuk ACD_VREF_MODE
+    ADCSRA |= div_factor(); // scale adc clock to 200Khz to meet max frekuency for 10bit adc
 #ifdef __AVR_ATmega16__
-    ADCSRA|=(1<<ADATE);
+    ADCSRA|=(1<<ADATE);     // setup single read
 #endif // __AVR_ATmega16__
 #ifdef __AVR_ATmega8__
-    ADCSRA|=_BV(ADEN);
+    ADCSRA|=_BV(ADEN);      // setup single read
 #endif // __AVR_ATmega8__
     SFIOR&=0x1F;
 }

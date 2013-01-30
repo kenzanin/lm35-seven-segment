@@ -1,6 +1,29 @@
 #ifndef ADC_H_INCLUDED
 #define ADC_H_INCLUDED
 
+/**
+ * @file
+ * @author  kenzanin@gmail.com
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details at
+ * http://www.gnu.org/copyleft/lgpl.html
+ *
+ * @section DESCRIPTION
+ *
+ * Library ini digunakan untuk memudahkan akses dan initialiasasi ADC 10bit
+ */
+
 /*
 AVR ADC 10bit library
 Copy-left kenzanin[AT]gmail[dot]com
@@ -32,6 +55,8 @@ void adc10_init(void);
  * \param _channel uint8_t
  * \return uint16_t
  *
+ * \code
+ * \endcode
  */
 uint16_t adc10_read(uint8_t _channel);
 
